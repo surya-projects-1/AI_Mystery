@@ -1,0 +1,2 @@
+import jwt from 'jsonwebtoken';
+export function requireAuth(req, res, next) { const token = req.headers.authorization?.replace(/^Bearer\s+/i, ''); if (!token) return res.status(401).json({ error: 'Sign in to access your investigations.' }); try { req.userId = jwt.verify(token, process.env.SESSION_SECRET).sub; next(); } catch { return res.status(401).json({ error: 'Your session has expired. Please sign in again.' }); } }
