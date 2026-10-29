@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Check, ChevronDown, ChevronLeft, ChevronRight, Clock3, FileText, Fingerprint, Image as ImageIcon, LockKeyhole, Menu, MessageCircle, Plus, Search, Shield, SlidersHorizontal, Sparkles, Target, UserRound, Video, X } from 'lucide-react';
 
-const API = (import.meta.env.VITE_API_BASE_URL || `http://${window.location.hostname}:5000/api/v1`).replace(/(https?:\/\/)(localhost|127\.0\.0\.1)(?=[:/])/, `$1${window.location.hostname}`);
+const API = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '/api/v1' : `http://${window.location.hostname}:5000/api/v1`);
 async function api(path, options={}) { const token=localStorage.getItem('amr_token'); const response=await fetch(`${API}${path}`,{...options,headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{ }),...options.headers}}); const data=await response.json().catch(()=>({})); if(!response.ok)throw new Error(data.error||'Something went wrong.');return data; }
 const navItems=[['The method','#method'],['Case files','/dashboard']];
 
